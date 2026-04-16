@@ -1,0 +1,14 @@
+FastAPI Overview:
+FastAPI is a modern Python web framework used for building APIs quickly and efficiently.
+
+Dependency Injection:
+FastAPI supports dependency injection, allowing reusable logic across endpoints.
+
+Async vs Sync:
+Async functions allow handling multiple requests without blocking execution.
+
+REST API:
+REST APIs allow communication using HTTP methods such as GET, POST, PUT, DELETE.
+
+Pydantic:
+Pydantic is used for data validation using Python type hints.
