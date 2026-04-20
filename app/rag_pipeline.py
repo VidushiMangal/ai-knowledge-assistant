@@ -1,7 +1,7 @@
 #from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
-from ingest import load_documents, split_documents
+from app.ingest import load_documents, split_documents
 
 EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en" )
 PERSIST_DIRECTORY = "db"
