@@ -3,7 +3,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from app.ingest import load_documents, split_documents
 
-EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en" )
+#EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en" )
 PERSIST_DIRECTORY = "db"
 
 def create_vector_store():
