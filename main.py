@@ -1,16 +1,44 @@
 import streamlit as st
-from app.chat import ask_question
+from app.static_rag import run_static_rag
+from app.dynamic_rag import process_pdf
+from langchain_community.chat_models import ChatOllama
 
 st.set_page_config(page_title="AI Knowledge Assistant")
 
-st.title("AI Knowledge Assistant")
-st.write("Ask questions from your developer notes.")
+st.title("🤖 AI Knowledge Assistant")
 
-query = st.text_input("Enter your question:")
+mode = st.radio("Choose Mode:", ["Static Knowledge", "Upload PDF"])
 
-if st.button("Ask"):
-    if query:
-        with st.spinner("Thinking..."):
-            answer = ask_question(query)
-            st.subheader("Answer")
-            st.write(answer)
+query = st.text_input("Ask a question")
+
+# STATIC MODE
+if mode == "Static Knowledge":
+    if st.button("Ask"):
+        answer = run_static_rag(query)
+        st.write(answer)
+
+# DYNAMIC MODE
+if mode == "Upload PDF":
+    uploaded_file = st.file_uploader("Upload PDF", type="pdf")
+
+    if uploaded_file:
+        vectorstore = process_pdf(uploaded_file)
+
+        if st.button("Ask"):
+            results = vectorstore.similarity_search(query, k=3)
+            context = "\n\n".join([r.page_content for r in results])
+
+            llm = ChatOllama(model="llama3")
+
+            prompt = f"""
+            Answer using only the context below.
+
+            Context:
+            {context}
+
+            Question:
+            {query}
+            """
+
+            response = llm.invoke(prompt)
+            st.write(response.content)
