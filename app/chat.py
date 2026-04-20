@@ -1,13 +1,9 @@
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_community.chat_models import ChatOllama
-
+from rag_pipeline import load_vector_store
 PERSIST_DIRECTORY = "db"
 
-def load_vector_store():
-    embedding_model = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en")
-    vectorstore = Chroma( persist_directory=PERSIST_DIRECTORY,embedding_function=embedding_model)
-    return vectorstore
 
 def ask_question(query):
     vectorstore = load_vector_store()
@@ -28,7 +24,6 @@ def ask_question(query):
     """
 
     response = llm.invoke(prompt)
-
     print("\nAnswer:\n")
     print(response.content)
 

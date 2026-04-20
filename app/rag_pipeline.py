@@ -3,39 +3,25 @@ from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from ingest import load_documents, split_documents
 
+EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en" )
 PERSIST_DIRECTORY = "db"
 
 def create_vector_store():
-    print("--------------------------------------------Step 1: Loading documents...")
     documents = load_documents()
-
     print(f"Loaded {len(documents)} documents")
-
-    print("--------------------------------------------Step 2: Splitting documents...")
     chunks = split_documents(documents)
-
     print(f"Total chunks: {len(chunks)}")
-
-    print("--------------------------------------------Step 3: Creating embeddings...")
-    embedding_model = HuggingFaceEmbeddings(
-        model_name="BAAI/bge-small-en"
-    )
-
-    print("--------------------------------------------Step 4: Creating vector store...")
     vectorstore = Chroma.from_documents(
         documents=chunks,
-        embedding=embedding_model,
+        embedding=EMBEDDING_MODEL,
         persist_directory=PERSIST_DIRECTORY 
     )
-
-    print("--------------------------------------------Step 5: Persisting database...")
-    #vectorstore.persist() # to store data in local drive
-
-    print("--------------------------------------------✅ Vector store created successfully!")
-
+    print("************** Vector store created successfully!**************")
     return vectorstore
 
-
-if __name__ == "__main__":
+def load_vector_store():
+    vectorstore = Chroma( persist_directory=PERSIST_DIRECTORY,embedding_function=EMBEDDING_MODEL)
+    return vectorstore
+"""if __name__ == "__main__":
     print("Starting RAG pipeline...")
-    create_vector_store()
+    create_vector_store()"""

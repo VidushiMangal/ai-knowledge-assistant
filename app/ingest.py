@@ -22,11 +22,11 @@ def split_documents(documents):
     chunks = splitter.split_documents(documents)
     return chunks
 
-if __name__ == "__main__":
+"""if __name__ == "__main__":
     docs = load_documents()
     chunks = split_documents(docs)
     print(f"Original documents: {len(docs)}")
     print(f"Total chunks: {len(chunks)}")
 
     print("\nSample chunk:\n")
-    print(chunks[0].page_content)
+    print(chunks[0].page_content)"""
